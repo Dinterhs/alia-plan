@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan de Implementación HubSpot · Alia</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F7F6F2;
+    --surface: #FFFFFF;
+    --ink: #1A1A18;
+    --ink-2: #4A4A46;
+    --ink-3: #8A8A84;
+    --accent: #1B4DFF;
+    --accent-light: #EBF0FF;
+    --teal: #0D7F6A;
+    --teal-light: #E6F5F1;
+    --amber: #B35A00;
+    --amber-light: #FFF3E6;
+    --border: #E4E3DC;
+    --pro: #0D7F6A;
+    --con: #C0392B;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--ink);
+    color: #fff;
+    padding: 48px 64px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    right: -40px; top: -40px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    right: 60px; top: 20px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .header-eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 1.15;
+    max-width: 540px;
+    margin-bottom: 20px;
+  }
+  .header h1 span { color: #6B8EFF; }
+  .header-meta {
+    display: flex; gap: 32px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+  }
+  .header-meta strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+  /* NORTE */
+  .norte-band {
+    background: var(--accent);
+    padding: 20px 64px;
+    display: flex; align-items: center; gap: 20px;
+  }
+  .norte-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .norte-text {
+    font-size: 14px;
+    color: #fff;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* MAIN */
+  .main { padding: 48px 64px; max-width: 1100px; margin: 0 auto; }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* CASO 1 */
+  .caso1-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .caso1-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+  }
+  .caso1-card .step-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-3);
+    margin-bottom: 10px;
+  }
+  .caso1-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--ink);
+  }
+  .caso1-card p {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+  .caso1-card .tag {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--accent-light);
+    color: var(--accent);
+  }
+  .caso1-arrow {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-3);
+    font-size: 20px;
+  }
+
+  .note-box {
+    background: var(--amber-light);
+    border: 1px solid #F5CBA7;
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 13px;
+    color: var(--amber);
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 48px;
+  }
+  .note-box .icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* DECISIÓN */
+  .decision-section { margin-bottom: 48px; }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .option-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .option-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .option-badge {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  .badge-a { background: var(--teal-light); color: var(--teal); }
+  .badge-b { background: var(--accent-light); color: var(--accent); }
+
+  .option-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .option-card .subtitle {
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+  .option-body { padding: 20px 24px; }
+
+  .pro-con-row {
+    margin-bottom: 16px;
+  }
+  .pro-con-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .pro-con-label.pro { color: var(--pro); }
+  .pro-con-label.con { color: var(--con); }
+
+  .items-list { list-style: none; }
+  .items-list li {
+    font-size: 13px;
+    color: var(--ink-2);
+    padding: 5px 0;
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.45;
+  }
+  .items-list li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 11px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+  .pro-list li::before { background: var(--pro); }
+  .con-list li::before { background: var(--con); }
+
+  .option-footer {
+    padding: 14px 24px;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--ink-3);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .option-footer strong { color: var(--ink-2); font-weight: 500; }
+
+  /* RECOMENDACION */
+  .rec-box {
+    background: var(--ink);
+    border-radius: 14px;
+    padding: 28px 32px;
+    color: #fff;
+    display: flex; gap: 24px; align-items: flex-start;
+    margin-bottom: 48px;
+  }
+  .rec-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .rec-box h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .rec-box p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.6;
+  }
+  .rec-box p strong { color: rgba(255,255,255,0.9); font-weight: 500; }
+
+  /* FASES */
+  .fases-section { margin-bottom: 48px; }
+  .fases-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .fase-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .fase-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .fase-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .fase-card .fase-period {
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .fase-card ul {
+    list-style: none;
+  }
+  .fase-card ul li {
+    font-size: 12px;
+    color: var(--ink-2);
+    padding: 4px 0;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .fase-card ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--ink-3);
+    font-size: 10px;
+  }
+
+  /* PENDIENTES */
+  .pendientes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .pendiente-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .pendiente-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--accent-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .pendiente-item h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+  .pendiente-item p {
+    font-size: 12px;
+    color: var(--ink-3);
+    line-height: 1.45;
+  }
+
+  /* FOOTER */
+  .footer {
+    background: var(--ink);
+    padding: 24px 64px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-left {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+  }
+  .footer-right {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* DIVIDER */
+  .section-gap { margin-bottom: 40px; }
+
+  @media print {
+    body { background: #fff; }
+    .main { padding: 32px; }
+    .header { padding: 32px; }
+    .norte-band { padding: 16px 32px; }
+    .footer { padding: 16px 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-eyebrow">Sesión de planificación · 23 de junio de 2025</div>
+  <h1>Plan de implementación <span>HubSpot</span> para Customer Success</h1>
+  <div class="header-meta">
+    <span><strong>Cliente:</strong> Alia</span>
+    <span><strong>Equipo:</strong> Ana Laura · Maggie</span>
+    <span><strong>Preparado por:</strong> Dinterweb</span>
+  </div>
+</div>
+
+<!-- NORTE -->
+<div class="norte-band">
+  <div class="norte-label">El norte</div>
+  <div class="norte-text">
+    Que el equipo de Customer Success pueda tomar decisiones sobre sus clientes desde un solo lugar: saber qué está activo, qué riesgo hay y qué se puede vender, sin tener que buscar la información en múltiples herramientas.
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- CASO 1 -->
+  <div class="section-gap">
+    <div class="section-title">Caso de uso 1 · Cimiento — Estructuración y cargue de data</div>
+    <div class="caso1-grid">
+      <div class="caso1-card">
+        <div class="step-num">Paso 01</div>
+        <h3>Auditoría en HubSpot</h3>
+        <p>Identificar qué clientes ya existen, cuáles están mal etiquetados y cuáles faltan completamente. Sin esta base, nada de lo demás funciona.</p>
+        <span class="tag">Diagnóstico</span>
+      </div>
+      <div class="caso1-card">
+        <div class="step-num">Paso 02</div>
+        <h3>Definir propiedades</h3>
+        <p>Mapear toda la información del plan de cuenta (ficha técnica, datos contractuales, facturación, riesgos, alertas) a propiedades dentro de HubSpot en el objeto Empresa.</p>
+        <span class="tag">Diseño</span>
+      </div>
+      <div class="caso1-card">
+        <div class="step-num">Paso 03</div>
+        <h3>Cargue de base</h3>
+        <p>Migrar todos los clientes activos con su información completa. A partir de aquí, comercial alimenta HubSpot al cerrar un cliente nuevo — no CS después.</p>
+        <span class="tag">Ejecución</span>
+      </div>
+    </div>
+    <div class="note-box">
+      <span class="icon">📎</span>
+      <span><strong>Pendiente de Maggie:</strong> Enviar (1) el Excel del plan de cuenta de un cliente completo y (2) una muestra plana de 5 clientes con todos sus datos, para definir exactamente qué propiedades se crean en HubSpot antes de iniciar el cargue.</span>
+    </div>
+  </div>
+
+  <!-- CASO 2 - DECISIÓN -->
+  <div class="decision-section">
+    <div class="section-title">Caso de uso 2 · La decisión — Proceso y visibilidad Customer Success</div>
+
+    <div class="options-grid">
+
+      <!-- OPCIÓN A -->
+      <div class="option-card">
+        <div class="option-header">
+          <span class="option-badge badge-a">Opción A</span>
+          <h3>Solo pipeline de negocios</h3>
+          <div class="subtitle">Sin licencia adicional · Funciona con lo que ya tienen</div>
+        </div>
+        <div class="option-body">
+          <div class="pro-con-row">
+            <div class="pro-con-label pro">A favor</div>
+            <ul class="items-list pro-list">
+              <li>Sin costo adicional de licencias</li>
+              <li>Un pipeline de negocios para CS con etiquetas: recurrente, upsell, crossell</li>
+              <li>Estado del cliente (activo / en riesgo / inactivo) como propiedad en la empresa</li>
+              <li>Trazabilidad financiera de todos los negocios asociados a cada cliente</li>
+              <li>Reportes y dashboards de facturación por cliente</li>
+            </ul>
+          </div>
+          <div class="pro-con-row">
+            <div class="pro-con-label con">Limitaciones</div>
+            <ul class="items-list con-list">
+              <li>No hay pipeline de servicio — difícil ver qué está activo, desde cuándo y hasta cuándo</li>
+              <li>Sin alertas automáticas de vencimiento de contrato o renovación</li>
+              <li>Sin encuestas de satisfacción NPS desde HubSpot</li>
+              <li>Fechas de vencimiento y semáforos requieren propiedades manuales</li>
+              <li>Escalabilidad limitada si el equipo crece</li>
+            </ul>
+          </div>
+        </div>
+        <div class="option-footer">
+          <strong>Costo adicional:</strong> $0 · Se trabaja con licencias actuales
+        </div>
+      </div>
+
+      <!-- OPCIÓN B -->
+      <div class="option-card">
+        <div class="option-header">
+          <span class="option-badge badge-b">Opción B ★</span>
+          <h3>Negocios + pipeline de servicio</h3>
+          <div class="subtitle">Con Service Hub · Proceso completo y automatizado</div>
+        </div>
+        <div class="option-body">
+          <div class="pro-con-row">
+            <div class="pro-con-label pro">A favor</div>
+            <ul class="items-list pro-list">
+              <li>Pipeline de servicio dedicado: qué servicio tiene cada cliente, en qué etapa y hasta cuándo</li>
+              <li>Alertas automáticas de vencimiento de contrato y renovación</li>
+              <li>Encuestas NPS y CSAT enviadas automáticamente desde HubSpot</li>
+              <li>Automatizaciones por etapa: correos de seguimiento, alertas de inactividad</li>
+              <li>Separación clara: negocios para trazabilidad financiera, servicio para trazabilidad operativa</li>
+              <li>Visión completa por empresa: todos los servicios activos + todos los negocios generados</li>
+            </ul>
+          </div>
+          <div class="pro-con-row">
+            <div class="pro-con-label con">Consideraciones</div>
+            <ul class="items-list con-list">
+              <li>Requiere Service Hub <strong>Professional</strong> — las encuestas NPS/CSAT no están en Starter</li>
+              <li>2 licencias Pro: ~$180 USD/mes (facturado anualmente)</li>
+              <li>Decisión de inversión debe pasar por Andrés</li>
+            </ul>
+          </div>
+        </div>
+        <div class="option-footer">
+          <strong>Costo estimado:</strong> 2 licencias Service Hub Professional · ~$180 USD/mes
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RECOMENDACIÓN -->
+    <div class="rec-box">
+      <div class="rec-icon">💡</div>
+      <div>
+        <h3>Recomendación</h3>
+        <p>El proceso ideal para Alia es la <strong>Opción B</strong>. Los negocios responden a "¿cuánto nos paga este cliente?", el servicio responde a "¿qué le estamos entregando y hasta cuándo?". Mezclar ambas preguntas en un solo objeto funciona a corto plazo, pero genera puntos ciegos operativos. <strong>La inversión en 2 licencias Service Pro es menor al valor de tener visibilidad real de cada servicio activo.</strong> Sin embargo, si la inversión no es viable hoy, la Opción A es un punto de partida sólido que puede evolucionar.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASES -->
+  <div class="fases-section">
+    <div class="section-title">Hoja de ruta · Primeras 12 semanas</div>
+    <div class="fases-grid">
+      <div class="fase-card">
+        <div class="fase-num">01</div>
+        <h3>Fundamentos</h3>
+        <div class="fase-period">Semanas 1–3</div>
+        <ul>
+          <li>Auditoría de lo que ya existe en HubSpot</li>
+          <li>Definición de propiedades en Empresa</li>
+          <li>Diseño del plan de cuenta en HubSpot</li>
+          <li>Decisión sobre licencias Service Hub</li>
+          <li>Cargue piloto con 5 clientes</li>
+        </ul>
+      </div>
+      <div class="fase-card">
+        <div class="fase-num">02</div>
+        <h3>Proceso y pipelines</h3>
+        <div class="fase-period">Semanas 4–8</div>
+        <ul>
+          <li>Configuración del pipeline de negocios CS</li>
+          <li>Pipeline de servicio (si aplica Opción B)</li>
+          <li>Migración completa de la base de clientes</li>
+          <li>Definición del handoff comercial → CS</li>
+          <li>Primeras automatizaciones de alertas</li>
+        </ul>
+      </div>
+      <div class="fase-card">
+        <div class="fase-num">03</div>
+        <h3>Visibilidad y adopción</h3>
+        <div class="fase-period">Semanas 9–12</div>
+        <ul>
+          <li>Dashboard de CS: semáforos y facturación</li>
+          <li>Alertas de inactividad y renovación</li>
+          <li>Encuestas NPS (Opción B)</li>
+          <li>Capacitación del equipo</li>
+          <li>Revisión de norte a 6 meses</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PENDIENTES HOY -->
+  <div class="section-gap">
+    <div class="section-title">Decisiones y pendientes de esta sesión</div>
+    <div class="pendientes-grid">
+      <div class="pendiente-item">
+        <div class="pendiente-icon">🗂️</div>
+        <div>
+          <h4>Excel plan de cuenta</h4>
+          <p>Maggie envía el archivo completo de un cliente para mapear propiedades en HubSpot.</p>
+        </div>
+      </div>
+      <div class="pendiente-item">
+        <div class="pendiente-icon">📊</div>
+        <div>
+          <h4>Muestra de 5 clientes</h4>
+          <p>Maggie envía una muestra plana (columnas con datos reales) para dimensionar el cargue.</p>
+        </div>
+      </div>
+      <div class="pendiente-item">
+        <div class="pendiente-icon">💳</div>
+        <div>
+          <h4>Decisión de licencias</h4>
+          <p>¿Se aprueban 2 licencias Service Hub? Andrés debe validar viabilidad de inversión.</p>
+        </div>
+      </div>
+      <div class="pendiente-item">
+        <div class="pendiente-icon">🏢</div>
+        <div>
+          <h4>Grupos empresariales</h4>
+          <p>Definir cómo se maneja en HubSpot un cliente con múltiples razones sociales (empresa principal + subsidiarias).</p>
+        </div>
+      </div>
+      <div class="pendiente-item">
+        <div class="pendiente-icon">🔁</div>
+        <div>
+          <h4>Proceso por tipo de servicio</h4>
+          <p>Nómina/Servicios especializados (recurrente) vs Talent (one-shot): ¿mismo pipeline o etiquetas distintas?</p>
+        </div>
+      </div>
+      <div class="pendiente-item">
+        <div class="pendiente-icon">🤝</div>
+        <div>
+          <h4>Handoff comercial → CS</h4>
+          <p>Quién llena el plan de cuenta y en qué momento: debe ocurrir al cerrar el cliente, no después.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-left">Dinterweb · Implementación HubSpot · Alia</div>
+  <div class="footer-right">Sesión del 23 de junio · Confidencial</div>
+</div>
+
+</body>
+</html>
